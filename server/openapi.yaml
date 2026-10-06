@@ -1,0 +1,713 @@
+openapi: 3.0.3
+
+info:
+  title: Registrar Management System API
+  version: 1.0.0
+  description: |
+    Mock API for the Registrar Management System.
+    This API uses in-memory mock data and does not require a database.
+
+servers:
+  - url: http://localhost:5000
+
+tags:
+  - name: Health
+  - name: Students
+  - name: Faculty
+  - name: Subjects
+  - name: Enrollments
+  - name: Grades
+  - name: Schedules
+
+paths:
+
+  /api/v1/health:
+    get:
+      tags:
+        - Health
+      summary: Check API health
+      responses:
+        "200":
+          description: API is working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /api/v1/students:
+    get:
+      tags:
+        - Students
+      summary: Get all students
+      responses:
+        "200":
+          description: Student list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Student"
+
+    post:
+      tags:
+        - Students
+      summary: Create a student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudentInput"
+            example:
+              student_id: "2026-0004"
+              first_name: "Yuto"
+              last_name: "Tanaka"
+              email: "yuto@example.com"
+              program: "BSCS"
+              year_level: 1
+              status: "Active"
+      responses:
+        "201":
+          description: Student created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /api/v1/students/{id}:
+    get:
+      tags:
+        - Students
+      summary: Get student by ID
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Student found
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      tags:
+        - Students
+      summary: Update student
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudentInput"
+      responses:
+        "200":
+          description: Student updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      tags:
+        - Students
+      summary: Delete student
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Student deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/v1/faculty:
+    get:
+      tags:
+        - Faculty
+      summary: Get all faculty
+      responses:
+        "200":
+          description: Faculty list
+
+    post:
+      tags:
+        - Faculty
+      summary: Create faculty
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FacultyInput"
+      responses:
+        "201":
+          description: Faculty created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /api/v1/faculty/{id}:
+    get:
+      tags:
+        - Faculty
+      summary: Get faculty by ID
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Faculty found
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      tags:
+        - Faculty
+      summary: Update faculty
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FacultyInput"
+      responses:
+        "200":
+          description: Faculty updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      tags:
+        - Faculty
+      summary: Delete faculty
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Faculty deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/v1/subjects:
+    get:
+      tags:
+        - Subjects
+      summary: Get all subjects
+      responses:
+        "200":
+          description: Subject list
+
+    post:
+      tags:
+        - Subjects
+      summary: Create subject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubjectInput"
+      responses:
+        "201":
+          description: Subject created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /api/v1/subjects/{id}:
+    get:
+      tags:
+        - Subjects
+      summary: Get subject by ID
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Subject found
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      tags:
+        - Subjects
+      summary: Update subject
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubjectInput"
+      responses:
+        "200":
+          description: Subject updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      tags:
+        - Subjects
+      summary: Delete subject
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Subject deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/v1/enrollments:
+    get:
+      tags:
+        - Enrollments
+      summary: Get all enrollments
+      responses:
+        "200":
+          description: Enrollment list
+
+    post:
+      tags:
+        - Enrollments
+      summary: Create enrollment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnrollmentInput"
+      responses:
+        "201":
+          description: Enrollment created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /api/v1/enrollments/{id}:
+    get:
+      tags:
+        - Enrollments
+      summary: Get enrollment by ID
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Enrollment found
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      tags:
+        - Enrollments
+      summary: Update enrollment
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnrollmentInput"
+      responses:
+        "200":
+          description: Enrollment updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      tags:
+        - Enrollments
+      summary: Delete enrollment
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Enrollment deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/v1/grades:
+    get:
+      tags:
+        - Grades
+      summary: Get all grades
+      responses:
+        "200":
+          description: Grade list
+
+    post:
+      tags:
+        - Grades
+      summary: Create grade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GradeInput"
+      responses:
+        "201":
+          description: Grade created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /api/v1/grades/{id}:
+    get:
+      tags:
+        - Grades
+      summary: Get grade by ID
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Grade found
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      tags:
+        - Grades
+      summary: Update grade
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GradeInput"
+      responses:
+        "200":
+          description: Grade updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      tags:
+        - Grades
+      summary: Delete grade
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Grade deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/v1/schedules:
+    get:
+      tags:
+        - Schedules
+      summary: Get all schedules
+      responses:
+        "200":
+          description: Schedule list
+
+    post:
+      tags:
+        - Schedules
+      summary: Create schedule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScheduleInput"
+      responses:
+        "201":
+          description: Schedule created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /api/v1/schedules/{id}:
+    get:
+      tags:
+        - Schedules
+      summary: Get schedule by ID
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Schedule found
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      tags:
+        - Schedules
+      summary: Update schedule
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScheduleInput"
+      responses:
+        "200":
+          description: Schedule updated
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      tags:
+        - Schedules
+      summary: Delete schedule
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Schedule deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+
+  parameters:
+
+    Id:
+      name: id
+      in: path
+      required: true
+      description: Resource ID
+      schema:
+        type: integer
+        minimum: 1
+      example: 1
+
+  responses:
+
+    BadRequest:
+      description: Invalid request
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+
+  schemas:
+
+    Problem:
+      type: object
+      required:
+        - type
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          type: string
+          example: about:blank
+        title:
+          type: string
+          example: Bad Request
+        status:
+          type: integer
+          example: 400
+        detail:
+          type: string
+          example: Required field is missing.
+
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        student_id:
+          type: string
+          example: "2026-0001"
+        first_name:
+          type: string
+          example: Aiko
+        last_name:
+          type: string
+          example: Fujimoto
+        email:
+          type: string
+          example: aiko@example.com
+        program:
+          type: string
+          example: BSCS
+        year_level:
+          type: integer
+          example: 2
+        status:
+          type: string
+          example: Active
+
+    StudentInput:
+      type: object
+      required:
+        - student_id
+        - first_name
+        - last_name
+        - program
+      properties:
+        student_id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        program:
+          type: string
+        year_level:
+          type: integer
+        status:
+          type: string
+
+    FacultyInput:
+      type: object
+      required:
+        - faculty_id
+        - first_name
+        - last_name
+        - department
+      properties:
+        faculty_id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        department:
+          type: string
+        position:
+          type: string
+        specialization:
+          type: string
+        status:
+          type: string
+
+    SubjectInput:
+      type: object
+      required:
+        - code
+        - title
+        - units
+        - program
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        units:
+          type: integer
+        program:
+          type: string
+        year_level:
+          type: integer
+        semester:
+          type: string
+        prerequisite:
+          type: string
+        status:
+          type: string
+
+    EnrollmentInput:
+      type: object
+      required:
+        - enrollment_id
+        - student_id
+        - academic_year
+        - semester
+        - program
+        - year_level
+        - section
+      properties:
+        enrollment_id:
+          type: string
+        student_id:
+          type: integer
+        academic_year:
+          type: string
+        semester:
+          type: string
+        program:
+          type: string
+        year_level:
+          type: integer
+        section:
+          type: string
+        total_units:
+          type: integer
+        status:
+          type: string
+
+    GradeInput:
+      type: object
+      required:
+        - student_id
+        - subject_id
+        - faculty_id
+        - prelim
+        - midterm
+        - final
+      properties:
+        student_id:
+          type: integer
+        subject_id:
+          type: integer
+        faculty_id:
+          type: integer
+        semester:
+          type: string
+        academic_year:
+          type: string
+        prelim:
+          type: number
+        midterm:
+          type: number
+        final:
+          type: number
+
+    ScheduleInput:
+      type: object
+      required:
+        - subject_id
+        - faculty_id
+        - section
+        - room
+        - day
+        - start_time
+        - end_time
+      properties:
+        subject_id:
+          type: integer
+        faculty_id:
+          type: integer
+        section:
+          type: string
+        room:
+          type: string
+        day:
+          type: string
+        start_time:
+          type: string
+          example: "08:00"
+        end_time:
+          type: string
+          example: "10:00"
+        semester:
+          type: string
+        academic_year:
+          type: string
